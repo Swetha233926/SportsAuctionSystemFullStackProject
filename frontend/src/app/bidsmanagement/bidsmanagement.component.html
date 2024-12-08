@@ -1,0 +1,123 @@
+<div class="flex h-screen">
+  <!-- Left Sidebar -->
+  <aside class="w-full sm:w-1/4  p-6 border-r border-gray-300 shadow-lg bg-indigo-400">
+    <!-- Title Section -->
+    <h2 class="text-2xl font-semibold text-white mb-6 border-b pb-2 border-gray-200">Auction Details</h2>
+    
+    <!-- Auction Info -->
+    <div class="text-black space-y-4 mb-6">
+      <p><strong class="text-black">Name:</strong> {{ auction?.auctionName }}</p>
+      <p><strong class="text-black">Date:</strong> {{ auction?.date }}</p>
+      <p><strong class="text-black">Sport:</strong> {{ auction?.sport }}</p>
+      <p><strong class="text-black">Status:</strong> {{ auction?.status }}</p>
+    </div>
+  
+    <!-- Navigation Buttons -->
+    <nav class="space-y-4">
+      <button
+        (click)="showActivePlayers()"
+        class="w-full py-3 px-4 rounded-lg text-lg text-black bg-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
+      >
+        Unsold
+      </button>
+      <button
+        (click)="showInactivePlayers()"
+        class="w-full py-3 px-4 rounded-lg text-lg text-blackk bg-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+      >
+        Sold
+      </button>
+    </nav>
+  </aside>
+  
+
+  
+
+<!-- Display Active Players -->
+<main class="w-3/4 p-4 bg-blue-200">
+  <div *ngIf="isViewingActivePlayers">
+    <h2 class="text-2xl font-semibold text-red-800 mb-6">Active Players</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="card border border-gray-300 rounded-lg p-4 shadow-lg hover:shadow-xl transition duration-300" *ngFor="let player of activePlayers">
+      <h3 class="text-xl font-semibold text-gray-800">{{ player.playerName}}</h3>
+      <p>Player Id: {{ player.playerId }}</p>
+      <p>Sport: {{ player.sport}}</p>
+      <p>Base Price: {{ player.basePrice}}</p>
+      <p>Current Bid:{{player.currentBid}}</p>
+      <button 
+      *ngIf="userHasRole('TeamManager') || userHasRole('Admin')"
+      (click)="showAddBid(player.playerId!)"
+            class="mt-4 py-2 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+            Place Bid
+          </button>
+    </div>
+  </div>
+  </div>
+
+  <div *ngIf="isViewingInactivePlayers">
+    <h2 class="text-2xl font-semibold text-red-800 mb-6">InActive Players</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="card border border-gray-300 rounded-lg p-4 shadow-lg hover:shadow-xl transition duration-300" *ngFor="let player of inactivePlayers">
+      <h3 class="text-xl font-semibold text-gray-800">{{ player.playerName}}</h3>
+      <p>Date: {{ player.playerId }}</p>
+      <p>Sport: {{ player.sport}}</p>
+      <p>Auctioneer: {{ player.basePrice}}</p>
+      <p>Bid Amount: {{ player.currentBid }}</p>
+    </div>
+  </div>
+  </div>
+
+  <div *ngIf="isViewingPerformace">
+    <h2 class="text-2xl font-semibold text-red-800 mb-6">Performance Report</h2>
+    <div *ngIf="performanceReports">
+      <div *ngFor="let report of performanceReports">
+        <p><strong>Analyst ID:</strong> {{ report.analystId }}</p>
+        <p><strong>Tournament:</strong> {{ report.tournament }}</p>
+        <p><strong>Performance Details:</strong> {{ report.performanceDetails }}</p>
+        <p><strong>Rating:</strong> {{ report.rating }}</p>
+        <!-- Add more performance data here -->
+      </div>
+    </div>
+    <!-- <div class="flex justify-end gap-4 mt-6">
+      <button (click)="showAddBid(newBid.playerId)" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+        Place Bid
+      </button>
+      <button (click)="cancelAddBid()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+        Cancel
+      </button>
+    </div> -->
+  </div>
+
+  <div *ngIf="isAddingBid">
+    
+    <form (ngSubmit)="addBid()">
+      <h1 class="text text-2xl font-bold text-red-700 mt-6">Post Bid</h1>
+      <div>
+        <p class="text-lg font-semibold text-gray-700">
+          Auction ID: {{ newBid.auctionId }}
+        </p>
+      </div>
+      <div>
+        <p class="text-lg font-semibold text-gray-700">
+          Player ID: {{ newBid.playerId }}
+        </p>
+      </div>
+      <div>
+        <label for="bidAmount" class="block text-lg font-semibold">Bid Amount</label>
+        <input type="number" id="bidAmount" name="bidAmount" [(ngModel)]="newBid.bidAmount" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
+      <div>
+        <label for="teamId" class="block text-lg font-semibold">Team Id</label>
+        <input type="number" id="teamId" name="teamId" [(ngModel)]="newBid.teamId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div> 
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Bid
+        </button>
+        <button (click)="cancelAddBid()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

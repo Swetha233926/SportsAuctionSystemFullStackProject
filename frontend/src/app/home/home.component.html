@@ -1,0 +1,197 @@
+<div class="bg-gray-50 overflow-x-hidden">
+  <!-- Navbar -->
+  <nav class="bg-blue-600 p-4 shadow-md ">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <a href="/home" class="text-2xl font-bold text-white">Sports Auction</a>
+      
+      <div class="flex items-center space-x-12">
+        <div class="text-xl">
+        <i class="bi bi-house mr-2 text-white"></i>
+        <a href="/home" class="text-white">Home</a>
+        </div>
+        <!-- Conditional Navigation Links -->
+        <ng-container *ngIf="!isLoggedIn(); else loggedInLinks">
+          <div class="text-xl">
+          <i class="bi bi-box-arrow-in-right mr-2 text-white"></i>
+          <a href="/login" class="text-white">Login</a>
+         </div>
+          <div class="text-xl">
+          <i class="bi bi-box-arrow-right mr-2 text-white"></i>
+          <a href="/registration" class="text-white">Sign Up</a>
+         </div>
+        </ng-container>
+
+        <ng-template #loggedInLinks>
+          <ng-container *ngIf="userHasRole('Admin')">
+            <div class="text-xl">
+              <i class="bi bi-people-fill text-white mr-2"></i>
+            <a href="/team" class="text-white">Teams</a>
+            </div>
+            <div class="text-xl">
+              <i class="bi bi-people-fill text-white mr-2"></i>
+            <a href="/player" class="text-white">Players</a>
+            </div>
+            <div class="text-xl">
+              <i class="bi bi-people-fill text-white mr-2"></i>
+            <a href="/auction" class="text-white">Auctions</a>
+            </div>
+          </ng-container>
+          <a *ngIf="userHasRole('TeamManager')" href="/team" class="text-white">Team Manager Dashboard</a>
+          <a *ngIf="userHasRole('Auctioneer')" href="/auction" class="text-white">Auctioneer Dashboard</a>
+          <a *ngIf="userHasRole('PlayerAgent')" href="/player" class="text-white">Player Agent Dashboard</a>
+          <a *ngIf="userHasRole('Analyst')" href="/analyst" class="text-white">Analyst Dashboard</a>
+          <a *ngIf="userHasRole('Viewer')" href="/home" class="text-white">Viewer Dashboard</a>
+          <button (click)="logout()" class="bg-red-600 py-2 px-6 rounded-lg text-white hover:bg-red-700 transition duration-300">
+            Logout
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative bg-cover bg-center h-screen" style="background-image: url('assets/login/title.png'); background-size: cover; background-position: center;">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+  
+    <!-- Content -->
+    <div class="container mx-auto relative z-10 text-white px-6 lg:px-16 py-20 lg:py-40">
+      <div class="lg:w-2/3">
+        <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-6">
+          Welcome to the <span class="text-blue-400">Sports Auction System</span>
+        </h1>
+        <p class="text-lg md:text-xl mb-8">
+          Join the platform that revolutionizes how sports teams bid on and manage players.
+        </p>
+  
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="auctions" class="bg-red-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-red-700 transition duration-300">
+            View All Auctions
+          </a>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+  <!-- About Section -->
+  <section class="py-20 lg:px-20 bg-gradient-to-r from-blue-50 to-white">
+    <div class="container mx-auto flex flex-col lg:flex-row items-center lg:justify-between">
+      <!-- About Text Section -->
+      <div class="lg:w-1/2 text-center lg:text-left lg:pr-12 lg:pl-32">
+        <h2 class="text-4xl font-extrabold text-gray-800 mb-6 leading-tight">
+          About the <span class="text-blue-600">Sports Auction System</span>
+        </h2>
+        <p class="text-lg text-gray-600 leading-relaxed mb-6">
+          The Sports Auction System is designed to revolutionize the way sports teams manage and bid on players. With a user-friendly interface, this system streamlines player management, auctioning, and bidding, enabling smooth operations for teams, agents, and auctioneers.
+        </p>
+        <a href="/learn-more" class="inline-block bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+          Learn More
+        </a>
+      </div>
+  
+      <!-- About Image Section -->
+      <div class="lg:w-1/2 mt-8 lg:mt-0 flex justify-center">
+        <img src="assets/home/about.png" alt="About Image" class="w-full max-w-md rounded-3xl shadow-xl transform hover:scale-105 transition duration-300">
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Features Section -->
+<section class="py-20 bg-gray-100 px-6">
+  <div class="container mx-auto text-center mb-12">
+    <h2 class="text-3xl font-bold text-gray-900 mb-6">Key Features</h2>
+    <p class="text-lg text-gray-600">Discover the powerful features of the Sports Auction System that help you manage players, teams, and auctions effectively.</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <!-- Feature 1 -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <img src="assets/home/team.png" alt="Feature 1" class="w-fit h-48 object-cover rounded-t-lg mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Manage Auctions</h3>
+      <p class="text-gray-600">Easily create, update, and manage auctions for different sports and teams.</p>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <img src="assets/home/player.png" alt="Feature 2" class="w-fit h-48 object-cover rounded-t-lg mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Player Management</h3>
+      <p class="text-gray-600">Track and manage players with detailed statistics, skills, and auction history.</p>
+    </div>
+
+    <!-- Feature 3 -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <img src="assets/home/bid.png" alt="Feature 3" class="w-fit h-52 object-cover rounded-t-lg mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Bidding System</h3>
+      <p class="text-gray-600">Enable team managers to place bids on players during live auctions.</p>
+    </div>
+
+    <!-- Feature 4 -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <img src="assets/home/analytics.png" alt="Feature 4" class="w-fit h-48 object-cover rounded-t-lg mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Auction Analytics</h3>
+      <p class="text-gray-600">Analyze bidding trends, team spending, and player demand with detailed reports.</p>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- Latest Auction Section -->
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white py-12 lg:pl-32">
+    <div class="container mx-auto px-6 lg:px-20">
+      <!-- Footer Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- About Section -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">About Sports Auction</h3>
+          <p class="text-gray-200 leading-relaxed">
+            The Sports Auction System simplifies player management, team organization, and live auctions with a user-friendly platform tailored for sports enthusiasts.
+          </p>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="lg:ml-20">
+          <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+          <ul>
+            <li><a href="/home" class="text-gray-200 hover:text-gray-300">Home</a></li>
+            <li><a href="/terms" class="text-gray-200 hover:text-gray-300">Terms & Conditions</a></li>
+            <li><a href="/privacy" class="text-gray-200 hover:text-gray-300">Privacy Policy</a></li>
+            <li><a href="/home" class="text-gray-200 hover:text-gray-300">Contact Us</a></li>
+          </ul>
+        </div>
+  
+        <!-- Social Media Links -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+          <div class="flex items-center space-x-4">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300">
+              <i class="bi bi-twitter text-2xl"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300">
+              <i class="bi bi-linkedin text-2xl"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300">
+              <i class="bi bi-instagram text-2xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Divider -->
+      <div class="border-t border-gray-500 mt-8"></div>
+  
+      <!-- Footer Bottom -->
+      <div class="mt-4 text-center">
+        <p class="text-sm">&copy; 2024 Sports Auction System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+</div>

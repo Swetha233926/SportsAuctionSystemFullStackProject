@@ -1,0 +1,182 @@
+<div class="mx-auto py-6 px-4 bg-cover bg-center" style="background-image: url('https://t4.ftcdn.net/jpg/03/90/66/17/360_F_390661775_BY3omV6LTS2064GbghxN9MBxgp4oV67W.jpg');">
+    <!-- Dashboard Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-blue-700">Auction Management Dashboard</h1>
+    <p class="text-lg text-white">Manage your auctions, update dates, and more.</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <button (click)="showAddAuctionForm()" class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300">
+        Add Auction
+        </button>
+        <button (click)="showAllAuctions()" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+        Get All Auctions
+        </button>
+        <button (click)="showUpdateAuctionForm()" class="bg-yellow-600 text-white py-2 px-6 rounded-lg hover:bg-yellow-700 transition duration-300">
+        Update Auction
+        </button>
+        <button (click)="showDeleteAuctionForm()" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">
+        Delete Auction
+        </button>
+    </div>
+
+    <!-- Auction List Table -->
+    <div *ngIf="isViewingAuction" class="overflow-x-auto mb-8 bg-white shadow-lg rounded-lg">
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="py-2 px-4">AuctionId</th>
+                    <th class="py-2 px-4">AuctionName</th>
+                    <th class="py-2 px-4">Date</th>
+                    <th class="py-2 px-4">Sport</th>
+                    <th class="py-2 px-4">AuctioneerId</th>
+                    <th class="py-2 px-4">StartTime</th>
+                    <th class="py-2 px-4">EndTime</th>
+                    <th class="py-2 px-4">Status</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let auction of auctions">
+                    <td class="py-2 px-4">{{ auction.auctionId}}</td>
+                    <td class="py-2 px-4">{{ auction.auctionName}}</td>
+                    <td class="py-2 px-4">{{ auction.date}}</td>
+                    <td class="py-2 px-4">{{ auction.sport }}</td>
+                    <td class="py-2 px-4">{{ auction.auctioneerId}}</td>
+                    <td class="py-2 px-4">{{ auction.startTime }}</td>
+                    <td class="py-2 px-4">{{ auction.endTime }}</td>
+                    <td class="py-2 px-4">{{ auction.status }}</td>
+                  </tr>
+            </tbody>
+        </table>
+     </div>
+
+     <!-- add auction form  -->
+     <div *ngIf="isAddingAuction" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+        <h2 class="text-2xl font-semibold text-blue-600 mb-6">Add New Auction</h2>
+
+        <form (ngSubmit)="addAuction()" #addAuctionForm="ngForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="auctionName" class="block text-lg font-semibold">Auction Name</label>
+                <input type="text" id="auctionName" name="auctionName" [(ngModel)]="newAuction.auctionName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="date" class="block text-lg font-semibold">Date</label>
+                <input type="text" id="date" name="date" [(ngModel)]="newAuction.date" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="auctioneerId" class="block text-lg font-semibold">AuctioneerId</label>
+                <input type="number" id="auctioneerId" name="auctioneerId" [(ngModel)]="newAuction.auctioneerId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </div>
+            <div>
+                <label for="sport" class="block text-lg font-semibold">Sport</label>
+                <input type="text" id="sport" name="sport" [(ngModel)]="newAuction.sport" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="startTime" class="block text-lg font-semibold">StartTime</label>
+                <input type="text" id="startTime" name="startTime" [(ngModel)]="newAuction.startTime" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="endTime" class="block text-lg font-semibold">EndTime</label>
+                <input type="text" id="endTime" name="endTime" [(ngModel)]="newAuction.endTime" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="status" class="block text-lg font-semibold">Status</label>
+                <input type="text" id="status" name="status" [(ngModel)]="newAuction.status" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" [disabled]="!addAuctionForm.form.valid" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Add Auction
+        </button>
+        <button (click)="cancelAddAuction()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+        </form>
+     </div>
+
+     <!-- Update Auction Section -->
+   <!-- Step 1: Ask for Auction ID -->
+   <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Enter Auction ID to Update</h2>
+    <form (ngSubmit)="getAuctionById()" #idForm="ngForm">
+      <div class="mb-4">
+        <label for="auctionId" class="block text-lg font-semibold">Auction ID</label>
+        <input type="number" id="auctionId" name="auctionId" [(ngModel)]="auctionId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
+      <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+        Fetch Auction
+      </button>
+    </form>
+  </div>
+
+  <!-- Step 2: Show the Update Form after Auction is fetched -->
+  <div *ngIf="selectedAuction" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Update Auction</h2>
+
+    <form (ngSubmit)="updateAuction()" #updateAuctionForm="ngForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="auctionName" class="block text-lg font-semibold">Auction Name</label>
+          <input type="text" id="auctionName" name="auctionName" [(ngModel)]="selectedAuction.auctionName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="date" class="block text-lg font-semibold">Date</label>
+            <input type="text" id="date" name="date" [(ngModel)]="selectedAuction.date" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="auctioneerId" class="block text-lg font-semibold">AuctioneerId</label>
+            <input type="number" id="auctioneerId" name="auctioneerId" [(ngModel)]="selectedAuction.auctioneerId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+          </div>
+        <div>
+            <label for="sport" class="block text-lg font-semibold">Sport</label>
+            <input type="text" id="sport" name="sport" [(ngModel)]="selectedAuction.sport" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="startTime" class="block text-lg font-semibold">StartTime</label>
+            <input type="text" id="startTime" name="startTime" [(ngModel)]="selectedAuction.startTime" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="endTime" class="block text-lg font-semibold">EndTime</label>
+            <input type="text" id="endTime" name="endTime" [(ngModel)]="selectedAuction.endTime" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="status" class="block text-lg font-semibold">Status</label>
+            <input type="text" id="status" name="status" [(ngModel)]="selectedAuction.status" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div> 
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" [disabled]="!updateAuctionForm.form.valid" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Update Auction
+        </button>
+        <button type="button" (click)="cancelEdit()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- delete auction section -->
+  <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Enter Auction ID to Delete</h2>
+    <form (ngSubmit)="deleteAuction()" #deleteAuctionForm="ngForm">
+      <div class="mb-4">
+        <label for="auctionId" class="block text-lg font-semibold">Auction ID</label>
+        <input type="number" id="auctionId" name="auctionId" [(ngModel)]="auctionIdToDelete" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-600" />
+      </div>
+      <div class="flex justify-end gap-4">
+        <button type="submit" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">
+          Delete Auction
+        </button>
+        <button type="button" (click)="cancelDelete()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>

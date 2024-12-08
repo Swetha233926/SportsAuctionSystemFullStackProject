@@ -1,0 +1,101 @@
+<!-- Container for the whole layout -->
+<div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar Navigation -->
+  <div class="w-1/4 bg-indigo-600 p-6 text-white shadow-lg">
+    <h2 class="text-3xl font-semibold mb-6">Finance & Reports</h2>
+    <nav class="space-y-4">
+      <!-- Sidebar links -->
+      <a (click)="showFinanceSection()" class="block py-2 px-4 rounded-lg hover:bg-indigo-700 cursor-pointer">Finance</a>
+      <a (click)="showAuctionResultsSection()" class="block py-2 px-4 rounded-lg hover:bg-indigo-700 cursor-pointer">Auction Results</a>
+      <a (click)="showReportsSection()" class="block py-2 px-4 rounded-lg hover:bg-indigo-700 cursor-pointer">Reports</a>
+    </nav>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="w-3/4 p-8">
+    <!-- Finance Section -->
+    <div *ngIf="isViewingFinance">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Finance Details</h2>
+      <div class="overflow-x-auto mb-8 bg-white shadow-lg rounded-lg">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-blue-600 text-white">
+              <th class="py-3 px-6 text-left">Finance ID</th>
+              <th class="py-3 px-6 text-left">Team ID</th>
+              <th class="py-3 px-6 text-left">Transaction Type</th>
+              <th class="py-3 px-6 text-left">Amount</th>
+              <th class="py-3 px-6 text-left">Date</th>
+              <th class="py-3 px-6 text-left">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let finance of finances" class="hover:bg-gray-50 transition duration-300">
+              <td class="py-2 px-4">{{ finance.financeId }}</td>
+              <td class="py-2 px-4">{{ finance.teamId }}</td>
+              <td class="py-2 px-4">{{ finance.transactionType }}</td>
+              <td class="py-2 px-4">{{ finance.amount }}</td>
+              <td class="py-2 px-4">{{ finance.date | date: 'shortDate' }}</td>
+              <td class="py-2 px-4">{{ finance.details }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Auction Results Section -->
+    <div *ngIf="isViewingAuctionResults">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Auction Results</h3>
+      <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-indigo-600 text-white">
+              <th class="py-3 px-6 text-left">Result ID</th>
+              <th class="py-3 px-6 text-left">Auction ID</th>
+              <th class="py-3 px-6 text-left">Player ID</th>
+              <th class="py-3 px-6 text-left">Winning Team ID</th>
+              <th class="py-3 px-6 text-left">Final Price</th>
+              <th class="py-3 px-6 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let result of auctionResults" class="hover:bg-gray-50 transition duration-300">
+              <td class="py-2 px-4">{{ result.resultId }}</td>
+              <td class="py-2 px-4">{{ result.auctionId }}</td>
+              <td class="py-2 px-4">{{ result.playerId }}</td>
+              <td class="py-2 px-4">{{ result.winningTeamId }}</td>
+              <td class="py-2 px-4">{{ result.finalPrice }}</td>
+              <td class="py-2 px-4">{{ result.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Reports Section -->
+    <div *ngIf="isViewingReports">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Reports</h3>
+      <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-indigo-600 text-white">
+              <th class="py-3 px-6 text-left">Report ID</th>
+              <th class="py-3 px-6 text-left">Type</th>
+              <th class="py-3 px-6 text-left">Generated Date</th>
+              <th class="py-3 px-6 text-left">Summary</th>
+              <th class="py-3 px-6 text-left">Created By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of reports" class="hover:bg-gray-50 transition duration-300">
+              <td class="py-2 px-4">{{ report.reportId }}</td>
+              <td class="py-2 px-4">{{ report.type }}</td>
+              <td class="py-2 px-4">{{ report.generatedDate | date: 'shortDate' }}</td>
+              <td class="py-2 px-4">{{ report.data }}</td>
+              <td class="py-2 px-4">{{ report.createdBy }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

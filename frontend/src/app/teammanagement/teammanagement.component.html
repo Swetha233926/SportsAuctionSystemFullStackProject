@@ -1,0 +1,186 @@
+<div class="mx-auto py-6 px-4 bg-cover bg-center" style="background-image: url('https://t4.ftcdn.net/jpg/03/90/66/17/360_F_390661775_BY3omV6LTS2064GbghxN9MBxgp4oV67W.jpg');">
+    <!-- Dashboard Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-blue-700">Team Management Dashboard</h1>
+    <p class="text-lg text-white">Manage your team, update team deatils, and more.</p>
+  </div>
+    
+    <!-- Action Buttons -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <button (click)="showAddTeamForm()" class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300">
+      Add Team
+    </button>
+    <button (click)="showAllTeams()" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+      Get All Teams
+    </button>
+    <button (click)="showUpdateTeamForm()" class="bg-yellow-600 text-white py-2 px-6 rounded-lg hover:bg-yellow-700 transition duration-300">
+      Update Team
+    </button>
+    <button (click)="showDeleteTeamForm()" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">
+      Delete Team
+    </button>
+  </div>
+  
+  <!-- teams list table -->
+  <div *ngIf="isViewingTeams" class="overflow-x-auto mb-8 bg-white shadow-lg rounded-lg">
+    <table class="min-w-full table-auto">
+        <thead>
+            <tr class="bg-blue-600 text-white">
+                <th class="py-2 px-4">TeamName</th>
+                <th class="py-2 px-4">ManagerId</th>
+                <th class="py-2 px-4">Sport</th>
+                <th class="py-2 px-4">Budget</th>
+                <th class="py-2 px-4">Region</th>
+                <th class="py-2 px-4">RosterSize</th>
+                <th class="py-2 px-4">Total Expenditure</th>
+              </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let team of teams">
+                <td class="py-2 px-4">{{ team.teamName }}</td>
+                <td class="py-2 px-4">{{ team.managerId}}</td>
+                <td class="py-2 px-4">{{ team.sport }}</td>
+                <td class="py-2 px-4">{{ team.budget }}</td>
+                <td class="py-2 px-4">{{ team.region}}</td>
+                <td class="py-2 px-4">{{ team.rosterSize }}</td>
+                <td class="py-2 px-4">{{ team.totalExpenditure }}</td>
+              </tr>
+        </tbody>
+    </table>
+  </div>
+
+  <!-- Add team form -->
+   <div *ngIf="isAddingTeam" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Add Team</h2>
+    <form (ngSubmit)="addTeam()" #addTeamForm="ngForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="teamName" class="block text-lg font-semibold">TeamName</label>
+                <input type="text" id="teamName" name="teamName" [(ngModel)]="newTeam.teamName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="managerId" class="block text-lg font-semibold">ManagerId</label>
+                <input type="number" id="managerId" name="managerId" [(ngModel)]="newTeam.managerId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="sport" class="block text-lg font-semibold">Sport</label>
+                <input type="text" id="sport" name="sport" [(ngModel)]="newTeam.sport" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="budget" class="block text-lg font-semibold">Budget</label>
+                <input type="number" id="budget" name="budget" [(ngModel)]="newTeam.budget" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="region" class="block text-lg font-semibold">Region</label>
+                <input type="text" id="region" name="region" [(ngModel)]="newTeam.region" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="rosterSize" class="block text-lg font-semibold">RosterSize</label>
+                <input type="number" id="rosterSize" name="rosterSize" [(ngModel)]="newTeam.rosterSize" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            <div>
+                <label for="totalExpenditure" class="block text-lg font-semibold">Total Expenditure</label>
+                <input type="number" id="totalExpenditure" name="totalExpenditure" [(ngModel)]="newTeam.totalExpenditure" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" [disabled]="!addTeamForm.form.valid" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Add Team
+        </button>
+        <button (click)="cancelAddTeam()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+
+
+   </div>
+  
+   <!-- Update Player Section -->
+   <!-- Step 1: Ask for Player ID -->
+   <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Enter Team ID to Update</h2>
+    <form (ngSubmit)="getTeamById()" #idForm="ngForm">
+      <div class="mb-4">
+        <label for="teamId" class="block text-lg font-semibold">Team ID</label>
+        <input type="number" id="teamId" name="teamId" [(ngModel)]="teamId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
+      <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+        Fetch Team 
+      </button>
+    </form>
+  </div>
+
+  <!-- Step 2: Show the Update Form after Player is fetched -->
+  <div *ngIf="selectedTeam" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Update Team</h2>
+
+    <form (ngSubmit)="updateTeam()" #updateTeamForm="ngForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="teamName" class="block text-lg font-semibold">TeamName</label>
+            <input type="text" id="teamName" name="teamName" [(ngModel)]="selectedTeam.teamName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="managerId" class="block text-lg font-semibold">ManagerId</label>
+            <input type="number" id="managerId" name="managerId" [(ngModel)]="selectedTeam.managerId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="sport" class="block text-lg font-semibold">Sport</label>
+            <input type="text" id="sport" name="sport" [(ngModel)]="selectedTeam.sport" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="budget" class="block text-lg font-semibold">Budget</label>
+            <input type="number" id="budget" name="budget" [(ngModel)]="selectedTeam.budget" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="region" class="block text-lg font-semibold">Region</label>
+            <input type="text" id="region" name="region" [(ngModel)]="selectedTeam.region" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="rosterSize" class="block text-lg font-semibold">RosterSize</label>
+            <input type="number" id="rosterSize" name="rosterSize" [(ngModel)]="selectedTeam.rosterSize" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+        <div>
+            <label for="totalExpenditure" class="block text-lg font-semibold">Total Expenditure</label>
+            <input type="number" id="totalExpenditure" name="totalExpenditure" [(ngModel)]="selectedTeam.totalExpenditure" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" [disabled]="!updateTeamForm.form.valid" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Update Player
+        </button>
+        <button type="button" (click)="cancelEdit()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <!-- delete player section -->
+  <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Enter Player ID to Delete</h2>
+    <form (ngSubmit)="deleteTeam()" #deleteTeamForm="ngForm">
+      <div class="mb-4">
+        <label for="teamId" class="block text-lg font-semibold">Team ID</label>
+        <input type="number" id="teamId" name="teamId" [(ngModel)]="teamIdToDelete" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-600" />
+      </div>
+      <div class="flex justify-end gap-4">
+        <button type="submit" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">
+          Delete Team
+        </button>
+        <button type="button" (click)="cancelDelete()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+    
+
+</div>

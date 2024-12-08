@@ -1,0 +1,306 @@
+
+
+<div class="flex justify-between items-center p-4 bg-blue-600 text-white">
+  <!-- Navigation Bar -->
+  <div class="space-x-4">
+    <button
+      (click)="showOngoingAuctions()"
+      [class.bg-red-600]="isViewingOngoingAuction"
+      class="py-2 px-6 rounded-lg text-lg hover:bg-red-700 transition duration-300"
+    >
+      Ongoing Auctions
+    </button>
+    <button
+      (click)="showUpcomingAuctions()"
+      [class.bg-red-600]="isViewingUpcomingAuction"
+      class="py-2 px-6 rounded-lg text-lg hover:bg-red-700 transition duration-300"
+    >
+      Upcoming Auctions
+    </button>
+    <button
+      (click)="showCompletedAuctions()"
+      [class.bg-red-600]="isViewingCompletedAuction"
+      class="py-2 px-6 rounded-lg text-lg hover:bg-red-700 transition duration-300"
+    >
+      Completed Auctions
+    </button>
+    <button
+      (click)="showTeams()"
+      class="py-2 px-6 rounded-lg text-lg hover:bg-red-700 transition duration-300"
+    >
+      Teams
+    </button>
+    <button
+      (click)="showPlayers()"
+      class="py-2 px-6 rounded-lg text-lg hover:bg-red-700 transition duration-300"
+    >
+      Players
+    </button>
+  </div>
+</div>
+
+<div class="bg-blue-200 min-h-screen">
+
+<!-- Auction Cards Section-->
+<div class="auction-cards p-4">
+  <!-- Display Ongoing Auctions -->
+  <div *ngIf="isViewingOngoingAuction">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Ongoing Auctions</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+  class="card bg-white border border-white-500 rounded-xl p-6 shadow-md hover:shadow-2xl transition duration-300 transform hover:scale-105"
+  *ngFor="let auction of ongoingAuctions"
+>
+  <!-- Auction Title -->
+  <h3 class="text-2xl font-bold text-blue-600 mb-4 border-b pb-2 border-gray-200">
+    {{ auction.auctionName }}
+  </h3>
+
+  <!-- Auction Details -->
+  <div class="text-gray-700 space-y-2">
+    <p><span class="font-semibold">Auction ID:</span> {{ auction.auctionId }}</p>
+    <p><span class="font-semibold">Date:</span> {{ auction.date }}</p>
+    <p><span class="font-semibold">Sport:</span> {{ auction.sport }}</p>
+    <p class="hidden"><span class="font-semibold">Auctioneer:</span> {{ auction.auctioneerId }}</p>
+    <p><span class="font-semibold">Start Time:</span> {{ auction.startTime }}</p>
+    <p><span class="font-semibold">End Time:</span> {{ auction.endTime }}</p>
+    <p><span class="font-semibold">Status:</span> <span class="text-green-600">{{ auction.status }}</span></p>
+  </div>
+
+  <!-- Button -->
+  <button
+    (click)="viewBidsForAuction(auction.auctionId!, auction.sport!)"
+    class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 mt-6 block mx-auto font-semibold transition duration-300"
+  >
+    Show Bids
+  </button>
+</div>
+
+    </div>
+  </div>
+
+  <!-- Display Upcoming Auctions -->
+  <div *ngIf="isViewingUpcomingAuction">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Upcoming Auctions</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+      class="card bg-white border border-white-500 rounded-xl p-6 shadow-md hover:shadow-2xl transition duration-300 transform hover:scale-105"
+      *ngFor="let auction of upcomingAuctions"
+    >
+      <!-- Auction Title -->
+      <h3 class="text-2xl font-bold text-indigo-600 mb-4 border-b pb-2 border-gray-200 flex items-center gap-2">
+        <i class="bi bi-trophy text-indigo-500"></i>
+        {{ auction.auctionName }}
+      </h3>
+    
+      <!-- Auction Details -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+        <!-- Left Column -->
+        <div>
+          <p class="flex items-center">
+            <i class="bi bi-calendar-event text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Date:</span> {{ auction.date }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-clock text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Start Time:</span> {{ auction.startTime }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-clock text-indigo-500 mr-2"></i>
+            <span class="font-semibold">End Time:</span> {{ auction.endTime }}
+          </p>
+        </div>
+    
+        <!-- Right Column -->
+        <div>
+          <p class="flex items-center">
+            <i class="bi bi-people text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Auctioneer:</span> {{ auction.auctioneerId }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-flag text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Sport:</span> {{ auction.sport }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-info-circle text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Status:</span>
+            <span class="text-yellow-600">{{ auction.status }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+
+  <!-- display completed auctions -->
+  <div *ngIf="isViewingCompletedAuction">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Completed Auctions</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+      class="card bg-white border border-white-500 rounded-xl p-6 shadow-md hover:shadow-2xl hover:shadow-red-100 transition duration-300 transform hover:scale-105"
+      *ngFor="let auction of completedAuctions"
+    >
+      <!-- Auction Title -->
+      <h3 class="text-2xl font-bold text-indigo-600 mb-4 border-b pb-2 border-gray-200 flex items-center gap-2">
+        <i class="bi bi-check-circle text-indigo-500"></i>
+        {{ auction.auctionName }}
+      </h3>
+    
+      <!-- Auction Details -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+        <!-- Left Column -->
+        <div>
+          <p class="flex items-center">
+            <i class="bi bi-calendar-event text-blue-500 mr-2"></i>
+            <span class="font-semibold">Date:</span> {{ auction.date }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-clock text-blue-500 mr-2"></i>
+            <span class="font-semibold">Start Time:</span> {{ auction.startTime }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-clock text-blue-500 mr-2"></i>
+            <span class="font-semibold">End Time:</span> {{ auction.endTime }}
+          </p>
+        </div>
+    
+        <!-- Right Column -->
+        <div>
+          <p class="flex items-center">
+            <i class="bi bi-person text-blue-500 mr-2"></i>
+            <span class="font-semibold">Auctioneer:</span> {{ auction.auctioneerId }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-flag text-blue-500 mr-2"></i>
+            <span class="font-semibold">Sport:</span> {{ auction.sport }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-info-circle text-blue-500 mr-2"></i>
+            <span class="font-semibold">Status:</span>
+            <span class="text-red-600">{{ auction.status }}</span>
+          </p>
+        </div>
+      </div>
+    
+      <!-- Reports Button -->
+      <button
+        (click)="navigateToFinanceReports()"
+        class="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300 mt-6 block mx-auto font-semibold"
+      >
+        View Reports
+      </button>
+    </div>
+    
+    </div>
+  </div>
+
+  <!-- Display Teams or Players (you can implement logic based on requirements) -->
+  <div *ngIf="isViewingTeams">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Team Details</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        class="card bg-white border border-white-500 rounded-xl p-6 shadow-md hover:shadow-2xl hover:shadow-indigo-300 transition duration-300 transform hover:scale-105"
+        *ngFor="let team of teamDetails"
+      >
+        <!-- Team Title -->
+        <h3 class="text-2xl font-bold text-indigo-600 mb-4 border-b pb-2 border-gray-200">
+          {{ team.teamName }}
+        </h3>
+  
+        <!-- Team Details -->
+        <div class="space-y-3 text-gray-700">
+          <p class="flex items-center">
+            <i class="bi bi-person-fill text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Team Manager:</span> {{ team.managerId }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-soccer-ball text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Sport:</span> {{ team.sport }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-cash text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Budget:</span> {{ team.budget | number:'1.0-0' }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-geo-alt text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Region:</span> {{ team.region }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-people-fill text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Team Size:</span> {{ team.rosterSize }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-wallet text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Expenditure:</span> ${{ team.totalExpenditure | number:'1.0-0' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- display players -->
+  <div *ngIf="isViewingPlayers">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Player Details</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        class="card bg-white border border-white-500 rounded-xl p-6 shadow-md hover:shadow-2xl hover:shadow-indigo-300 transition duration-300 transform hover:scale-105"
+        *ngFor="let player of playerDetails"
+      >
+        <!-- Player Name -->
+        <h3 class="text-2xl font-bold text-indigo-600 mb-4 border-b pb-2 border-gray-200 flex items-center gap-2">
+          <i class="bi bi-person-fill text-indigo-500"></i>
+          {{ player.playerName }}
+        </h3>
+  
+        <!-- Player Details -->
+        <div class="space-y-3 text-gray-700">
+          <p class="flex items-center">
+            <i class="bi bi-soccer-ball text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Sport:</span> {{ player.sport }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-calendar text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Age:</span> {{ player.age }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-flag text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Country:</span> {{ player.country }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-people text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Position:</span> {{ player.position }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-cash text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Base Price:</span> ${{ player.basePrice | number:'1.0-0' }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-tools text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Skills:</span> {{ player.skills }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-bar-chart text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Performance Stats:</span> {{ player.performanceStats }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-person-check text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Agent ID:</span> {{ player.agentId }}
+          </p>
+          <p class="flex items-center">
+            <i class="bi bi-pulse text-indigo-500 mr-2"></i>
+            <span class="font-semibold">Status:</span> {{ player.status }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div *ngIf="errorMessage" class="error-message mt-4 text-red-600">
+    <p>{{ errorMessage }}</p>
+  </div>
+</div>
+
+
+</div>

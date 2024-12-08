@@ -1,0 +1,268 @@
+<!-- player-management.component.html -->
+<div class="mx-auto py-6 px-4 bg-cover bg-center" style="background-image: url('https://t4.ftcdn.net/jpg/03/90/66/17/360_F_390661775_BY3omV6LTS2064GbghxN9MBxgp4oV67W.jpg');">
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-blue-700">Player Management Dashboard</h1>
+    <p class="text-lg text-white">Manage your players, update stats, and more.</p>
+  </div>
+
+  <!-- Action Buttons (Add, View, Update, Delete) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Add Player Button -->
+    <div class="flex justify-center">
+      <button (click)="showAddPlayerForm()" class="bg-green-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-green-700 transition duration-300 transform hover:scale-105 w-full sm:w-auto">
+        Add Player
+      </button>
+    </div>
+
+    <!-- View All Players Button -->
+    <div class="flex justify-center">
+      <button (click)="showAllPlayers()" class="bg-blue-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 transform hover:scale-105 w-full sm:w-auto">
+        View All Players
+      </button>
+    </div>
+
+    <!-- Update Player Button -->
+    <div class="flex justify-center">
+      <button (click)="showUpdatePlayerForm()" class="bg-yellow-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-yellow-700 transition duration-300 transform hover:scale-105 w-full sm:w-auto">
+        Update Player
+      </button>
+    </div>
+
+    <!-- Delete Player Button -->
+    <div class="flex justify-center">
+      <button (click)="showDeletePlayerForm()" class="bg-red-600 text-white py-3 px-8 rounded-lg shadow-md hover:bg-red-700 transition duration-300 transform hover:scale-105 w-full sm:w-auto">
+        Delete Player
+      </button>
+    </div>
+  </div>
+
+  <!-- Player List Table -->
+  <div *ngIf="isViewingPlayers" class="overflow-x-auto mb-8 bg-white shadow-lg rounded-lg">
+    <table class="min-w-full table-auto">
+      <thead>
+        <tr class="bg-blue-600 text-white">
+          <th class="py-2 px-4">Player Name</th>
+          <th class="py-2 px-4">Player Email</th>
+          <th class="py-2 px-4">Sport</th>
+          <th class="py-2 px-4">Age</th>
+          <th class="py-2 px-4">Position</th>
+          <th class="py-2 px-4">Base Price</th>
+          <th class="py-2 px-4">Skills</th>
+          <th class="py-2 px-4">Performance Stats</th>
+          <th class="py-2 px-4">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let player of players">
+          <td class="py-2 px-4">{{ player.playerName }}</td>
+          <td class="py-2 px-4">{{ player.email }}</td>
+          <td class="py-2 px-4">{{ player.sport }}</td>
+          <td class="py-2 px-4">{{ player.age }}</td>
+          <td class="py-2 px-4">{{ player.position }}</td>
+          <td class="py-2 px-4">{{ player.basePrice }}</td>
+          <td class="py-2 px-4">{{ player.skills }}</td>
+          <td class="py-2 px-4">{{ player.performanceStats }}</td>
+          <td class="py-2 px-4">{{ player.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add Player Form -->
+  <div *ngIf="isAddingPlayer" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Add New Player</h2>
+
+    <form (ngSubmit)="addPlayer()" #addPlayerForm="ngForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Player Name -->
+        <div>
+          <label for="playerName" class="block text-lg font-semibold">Player Name</label>
+          <input type="text" id="playerName" name="playerName" [(ngModel)]="newPlayer.playerName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <div>
+          <label for="playerEmail" class="block text-lg font-semibold">Player Email</label>
+          <input type="email" id="playeEmail" name="playerEmail" [(ngModel)]="newPlayer.email" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Sport -->
+        <div>
+          <label for="sport" class="block text-lg font-semibold">Sport</label>
+          <input type="text" id="sport" name="sport" [(ngModel)]="newPlayer.sport" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Age -->
+        <div>
+          <label for="age" class="block text-lg font-semibold">Age</label>
+          <input type="number" id="age" name="age" [(ngModel)]="newPlayer.age" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Country -->
+        <div>
+          <label for="country" class="block text-lg font-semibold">Country</label>
+          <input type="text" id="country" name="country" [(ngModel)]="newPlayer.country" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Position -->
+        <div>
+          <label for="position" class="block text-lg font-semibold">Position</label>
+          <input type="text" id="position" name="position" [(ngModel)]="newPlayer.position" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Base Price -->
+        <div>
+          <label for="basePrice" class="block text-lg font-semibold">Base Price</label>
+          <input type="number" id="basePrice" name="basePrice" [(ngModel)]="newPlayer.basePrice" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Skills -->
+        <div>
+          <label for="skills" class="block text-lg font-semibold">Skills</label>
+          <input type="text" id="skills" name="skills" [(ngModel)]="newPlayer.skills" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Performance Stats -->
+        <div>
+          <label for="performanceStats" class="block text-lg font-semibold">Performance Stats</label>
+          <input type="text" id="performanceStats" name="performanceStats" [(ngModel)]="newPlayer.performanceStats" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+    
+        <!-- Player Status -->
+        <div>
+          <label for="status" class="block text-lg font-semibold">Status</label>
+          <select id="status" name="status" [(ngModel)]="newPlayer.status" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+    
+        <!-- Agent ID (new field) -->
+        <div>
+          <label for="agentId" class="block text-lg font-semibold">Agent ID</label>
+          <input type="number" id="agentId" name="agentId" [(ngModel)]="newPlayer.agentId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+      </div>
+    
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" [disabled]="!addPlayerForm.form.valid" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Add Player
+        </button>
+        <button (click)="cancelAddPlayer()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+    
+  </div>
+
+  <!-- Update Player Section -->
+   <!-- Step 1: Ask for Player ID -->
+   <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Enter Player ID to Update</h2>
+    <form (ngSubmit)="getPlayerById()" #idForm="ngForm">
+      <div class="mb-4">
+        <label for="playerId" class="block text-lg font-semibold">Player ID</label>
+        <input type="number" id="playerId" name="playerId" [(ngModel)]="playerId" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
+      <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+        Fetch Player
+      </button>
+    </form>
+  </div>
+
+  <!-- Step 2: Show the Update Form after Player is fetched -->
+  <div *ngIf="selectedPlayer" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Update Player</h2>
+
+    <form (ngSubmit)="updatePlayer()" #updatePlayerForm="ngForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Player Name -->
+        <div>
+          <label for="playerName" class="block text-lg font-semibold">Player Name</label>
+          <input type="text" id="playerName" name="playerName" [(ngModel)]="selectedPlayer.playerName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <div>
+          <label for="playerEmail" class="block text-lg font-semibold">Player Email</label>
+          <input type="email" id="playeEmail" name="playerEmail" [(ngModel)]="selectedPlayer.email" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Sport -->
+        <div>
+          <label for="sport" class="block text-lg font-semibold">Sport</label>
+          <input type="text" id="sport" name="sport" [(ngModel)]="selectedPlayer.sport" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Age -->
+        <div>
+          <label for="age" class="block text-lg font-semibold">Age</label>
+          <input type="number" id="age" name="age" [(ngModel)]="selectedPlayer.age" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Position -->
+        <div>
+          <label for="position" class="block text-lg font-semibold">Position</label>
+          <input type="text" id="position" name="position" [(ngModel)]="selectedPlayer.position" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Base Price -->
+        <div>
+          <label for="basePrice" class="block text-lg font-semibold">Base Price</label>
+          <input type="number" id="basePrice" name="basePrice" [(ngModel)]="selectedPlayer.basePrice" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Skills -->
+        <div>
+          <label for="skills" class="block text-lg font-semibold">Skills</label>
+          <input type="text" id="skills" name="skills" [(ngModel)]="selectedPlayer.skills" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Performance Stats -->
+        <div>
+          <label for="performanceStats" class="block text-lg font-semibold">Performance Stats</label>
+          <input type="text" id="performanceStats" name="performanceStats" [(ngModel)]="selectedPlayer.performanceStats" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" />
+        </div>
+
+        <!-- Player Status -->
+        <div>
+          <label for="status" class="block text-lg font-semibold">Status</label>
+          <select id="status" name="status" [(ngModel)]="selectedPlayer.status" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-4 mt-6">
+        <button type="submit" [disabled]="!updatePlayerForm.form.valid" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+          Update Player
+        </button>
+        <button type="button" (click)="cancelEdit()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- delete player section -->
+  <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-6">Enter Player ID to Delete</h2>
+    <form (ngSubmit)="deletePlayer()" #deletePlayerForm="ngForm">
+      <div class="mb-4">
+        <label for="playerId" class="block text-lg font-semibold">Player ID</label>
+        <input type="number" id="playerId" name="playerId" [(ngModel)]="playerIdToDelete" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-600" />
+      </div>
+      <div class="flex justify-end gap-4">
+        <button type="submit" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">
+          Delete Player
+        </button>
+        <button type="button" (click)="cancelDelete()" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-300">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
